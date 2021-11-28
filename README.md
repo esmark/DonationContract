@@ -22,8 +22,22 @@ This is donation contract written in **Solidity**, that uses the **Ethereum** bl
 
 ## Testing
 1. Manual testing with help of Ganache and MyEtherWallet.
-2.
-3. Execute the provided tests:
+2. Execute the provided tests:
     ```
     truffle test
+    ```
+3. Using hardhat:
+    
+    This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. 
+    
+    Try running some of the following tasks:
+
+    ```shell
+    npx hardhat accounts
+    npx hardhat compile
+    npx hardhat clean
+    npx hardhat test
+    npx hardhat node
+    node scripts/sample-script.js
+    npx hardhat help
     ```
