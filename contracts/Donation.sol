@@ -1,34 +1,37 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.5 <0.9.0;
 
 contract Donation {
   address public owner;
-  address public donatorAddress;
-  uint256 public donatorAmount;
-  uint256 public totalAmount;
+  address[] private donatorAddress;
+  uint256[] private donatorAmount;
 
-  event Sent (address from, address to, uint amount);
-  
   constructor() {
     owner = msg.sender;
   }
 
   function makeDonation() public payable {
+    //ToDo: add more currencies: BNB, Matic
     require(msg.value > 0 ether);
-    donatorAddress = msg.sender;
-    donatorAmount = msg.value;
-    totalAmount += donatorAmount;
+    donatorAddress.push(msg.sender);
+    donatorAmount.push(msg.value);
   }
 
-  function transfer(address receiver, uint amount) public payable {
-    require(msg.sender == owner, "Access denied!");
-    require(totalAmount > amount, "Transfer amount should be less of Total amount!");
-    totalAmount -= amount;
-    emit Sent(msg.sender, receiver, amount);
-    // payable(owner).transfer(totalAmount);
+  function transfer(address receiver) public payable {
+    require(msg.sender == owner, "Access denied! Only Owner can make transfer!");
+    payable(receiver).transfer(address(this).balance);
   }
 
-  function getDonations() public view returns (address,uint256) {
-      return (donatorAddress,donatorAmount);
+  function getDonators() public view returns (address[] memory) {
+    return (donatorAddress);
+  }
+
+  function getAmounts() public view returns (uint256[] memory) {
+    return (donatorAmount);
+  }
+
+  function getBalance() public view returns (uint256) {
+    require(msg.sender == owner, "Access denied! Only Owner can see balance!");
+    return (address(this).balance);
   }
 }
